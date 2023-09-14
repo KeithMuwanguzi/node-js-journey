@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Defaults Blog |<%= title%></title>
+</head>
+<body>
+    <nav>
+        <div class="site-title">
+            <a href="/">Blog App</a>
+            <h3>DEFAULTS BLOG</h3>
+        </div>
+        <ul>
+            <li><a href="/">Blog</a></li>
+            <li><a href="/about">About us</a></li>
+            <li><a href="/blogs/create">New Blogs</a></li>
+        </ul>
+    </nav>
+    <div class="blogs content">
+        <h2>All Blogs here</h2>
+        <% if(blogs.length > 0){ %>
+            <% blogs.forEach((blog)=>{ %>
+                <h3><%= blog.title %></h3>
+                <p><%= blog.snippet %></p>
+            <% }) %>
+        <% } %>
+    </div>
+</body>
+</html>

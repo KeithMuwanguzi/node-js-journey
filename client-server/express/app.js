@@ -1,20 +1,33 @@
 const express = require('express')
 const app = express()
 
+app.set('view engine','ejs')
+
 app.get('/',(req,res)=>{
-    res.sendFile('./views/index.html',{root:__dirname})
+    const blogs = [
+        {title:'Grow the Animal',snippet:'The Animal grows as fat as'},
+        {title:'Basketbal Origin',snippet:'James Naismith is what we attribute'},
+        {title:'Jesus is Lord',snippet:'Jesus isthe true son of God'},
+    ]
+    res.render('index',{
+        title:'Home',
+        blogs:blogs,
+    })
 })
 
 app.get('/about',(req,res)=>{
-    res.sendFile('./views/about.html',{root:__dirname})
+    res.render('about',{
+        title:'About',
+        message:'We are a well experieenced company dedicated to serving the public in Technological connected fields through, React, React-native ,java etc'
+})
 })
 
-app.get('/about-us',(req,res)=>{
-    res.redirect('/about')
+app.get('/blogs/create',(req,res)=>{
+    res.render('create',{title:'Create New Blog'})
 })
 
 app.use((req,res)=>{
-    res.status(404).sendFile('./views/404.html',{root:__dirname})
+    res.status(404).render('404',{title:'404'})
 })
 
 app.listen(3000,()=>{
