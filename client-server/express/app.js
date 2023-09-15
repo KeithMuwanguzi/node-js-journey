@@ -2,6 +2,7 @@ const express = require('express')
 const morgan = require('morgan')
 const app = express()
 const conn = require('./database')
+const Blog = require('./models/blog')
 
 //Database Connection
 conn.then((result)=>{
@@ -19,15 +20,13 @@ app.use(express.static('public'))
 app.use(morgan('dev'))
 
 app.get('/',(req,res)=>{
-    const blogs = [
-        {title:'Grow the Animal',snippet:'The Animal grows as fat as'},
-        {title:'Basketbal Origin',snippet:'James Naismith is what we attribute'},
-        {title:'Jesus is Lord',snippet:'Jesus isthe true son of God'},
-    ]
-    res.render('index',{
-        title:'Home',
-        blogs:blogs,
+    Blog.find().sort({createdAt: -1}).then((result)=>{
+        res.render('index',{
+            title:'Home',
+            blogs:result,
+        })
     })
+    
 })
 
 app.get('/about',(req,res)=>{
