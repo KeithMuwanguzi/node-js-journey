@@ -1,6 +1,15 @@
 const express = require('express')
 const morgan = require('morgan')
 const app = express()
+const conn = require('./database')
+
+//Database Connection
+conn.then((result)=>{
+    console.log('Database Connection')
+    app.listen(3000,()=>{
+        console.log('Server has fired up')
+    })
+}).catch((err) => {console.log(`An error occured ${err}`)})
 
 app.set('view engine','ejs')
 
@@ -34,8 +43,4 @@ app.get('/blogs/create',(req,res)=>{
 
 app.use((req,res)=>{
     res.status(404).render('404',{title:'404'})
-})
-
-app.listen(3000,()=>{
-    console.log('Server has fired up')
 })
