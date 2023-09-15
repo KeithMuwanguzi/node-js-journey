@@ -16,7 +16,7 @@ app.set('view engine','ejs')
 
 //middleware
 app.use(express.static('public'))
-
+app.use(express.urlencoded({extended:true}))
 app.use(morgan('dev'))
 
 app.get('/',(req,res)=>{
@@ -35,6 +35,35 @@ app.get('/about',(req,res)=>{
         message:'We are a well experieenced company dedicated to serving the public in Technological connected fields through, React, React-native ,java etc'
 })
 })
+
+app.post('/blogs',(req,res)=>{
+    const blog = new Blog(req.body)
+
+    blog.save().then((result)=>{
+        res.redirect('/')
+    }).catch((err)=>{console.log(err)})
+})
+
+app.get('/blogs/:id',(req,res)=>{
+    const id = req.params.id
+    Blog.findById(id).then((result)=>{
+        res.render('details',{title:'Blog details',blog:result})
+    }).catch(err => {
+        console.log(err)
+    })
+})
+
+app.delete('/blogs/:id', (req, res) => {
+    const id = req.params.id;
+    
+    Blog.findByIdAndDelete(id)
+      .then(result => {
+        res.json({ redirect: '/' });
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  });
 
 app.get('/blogs/create',(req,res)=>{
     res.render('create',{title:'Create New Blog'})
