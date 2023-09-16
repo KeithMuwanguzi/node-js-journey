@@ -16,15 +16,16 @@ app.set('view engine','ejs')
 
 //middleware
 app.use(express.static('public'))
+app.use(express.json())
 app.use(express.urlencoded({extended:true}))
 app.use(morgan('dev'))
 
 app.get('/',(req,res)=>{
     Blog.find().sort({createdAt: -1}).then((result)=>{
-        res.render('index',{
-            title:'Home',
-            blogs:result,
-        })
+        res.json(result)
+    })
+    res.status(200).send({
+        statusCode:200
     })
     
 })
