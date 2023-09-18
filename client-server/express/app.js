@@ -22,7 +22,7 @@ app.use(morgan('dev'))
 
 app.get('/',(req,res)=>{
     Blog.find().sort({createdAt: -1}).then((result)=>{
-        res.json(result)
+        res.render('index',{title:'Blogs',blogs:result})
     })
     res.status(200).send({
         statusCode:200
